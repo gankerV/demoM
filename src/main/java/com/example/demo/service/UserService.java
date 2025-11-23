@@ -21,12 +21,10 @@ public class UserService {
     private UserRepo userRepo;
 
 
-    // ---------------------------------------------------
-    // GET ALL USERS
-    // ---------------------------------------------------
     public List<User> getAllUser() {
+        log.info("Service:getAllUser - Fetching all users");
         List<User> users = userRepo.findAll();
-        log.info("Users: {}", users);
+        log.info("Service:getAllUser - Found {} users", users.size());
         return users;
     }
 

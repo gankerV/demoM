@@ -1,21 +1,31 @@
 <configuration>
+    <!-- JSON encoder -->
+    <include resource="net/logstash/logback/logging.json"/>
 
-    <!-- Appender Console -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>
-                %cyan(%d{HH:mm:ss}) %highlight(%-5level) %green(%logger{36}) - %msg%n
-            </pattern>
-        </encoder>
+    <!-- Console JSON -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-    <!-- Root logger -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-    </root>
+    <!-- File JSON -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
 
-    <!-- Optional: giảm log Hibernate -->
-    <logger name="org.hibernate" level="WARN"/>
-    <logger name="org.springframework" level="INFO"/>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
+    <!-- Reduce noise -->
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
+
+    <!-- Application logs -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
 
 </configuration>

@@ -26,16 +26,13 @@ public class UserController {
     private UserService userService;
 
 
-    // ------------------------------------------
-    // GET LIST USER
-    // ------------------------------------------
     @GetMapping
     public List<User> getListUser() {
+        log.info("Controller:getListUser called");
         List<User> users = userService.getAllUser();
-        log.info(users.toString());
+        log.info("Controller:getListUser returning {} users", users.size());
         return users;
     }
-
 
     // ------------------------------------------
     // CREATE USER + @Valid
