@@ -1,13 +1,15 @@
 package com.example.demo.repo;
 
 import com.example.demo.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
-    List<User> findByNameContainingIgnoreCase(String name);
+    Page<User> findAll(Pageable pageable);
 
-    List<User> findByPhone(String phone);
+    Page<User> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
+    Page<User> findByPhoneContaining(String phone, Pageable pageable);
 }
